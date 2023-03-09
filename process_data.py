@@ -15,7 +15,7 @@ def get_file_names_current_dir(dir_name = ''):
 
 
 
-# import dataset and show data specifications
+# import dataset and print data specifications
 # dataset_type : Train or Test
 def dataset_import(file_name, dataset_type) -> pd.DataFrame():
     '''
