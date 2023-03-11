@@ -49,3 +49,28 @@ def dataset_import(file_name, dataset_type) -> pd.DataFrame():
     print('\nNull Values in ' + dataset_type +' Dataset :\n', data.isnull().sum())
     
     return data
+
+
+# perform exploratory data analysis on dataset
+def dataset_EDA(data, pairplot_columns):
+    '''
+    performs exploratory data analysis on dataset
+
+    Input ->
+    data : pandas dataframe
+    pairplot_columns : columns to be plotted in pair plot and heatmap
+
+    Output ->
+    pair plot : 
+    heatmap : correlation between pairplot columns
+    '''
+    # pairplot
+    fig, (ax1) = plt.subplots(1)
+    pair_plot = sns.pairplot(data, vars=pairplot_columns)
+    pair_plot.savefig("eda.jpg") 
+
+    # heatmap
+    data_corr = data.corr()
+    heat_map = sns.heatmap(data_corr, annot=True, cmap='coolwarm', ax=ax1)
+    
+    plt.show()
