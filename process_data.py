@@ -74,3 +74,41 @@ def dataset_EDA(data, pairplot_columns):
     heat_map = sns.heatmap(data_corr, annot=True, cmap='coolwarm', ax=ax1)
     
     plt.show()
+
+
+# perform data scrubbing
+def dataset_scrubbing(data, scrub_type, data_columns, fill_operation='mean'):
+    '''
+    performs data cleaning on dataframe
+
+    Input ->
+    data : raw pandas dataframe
+    scrub_type : remove colums / one hot encoding / drop / fill missing
+    data_columns : columns to be scrubbed
+    fill operation : mean or median or mode or number or string
+
+    Output ->
+    data : scrubbed / processed  pandas data frame
+    '''
+    if scrub_type == 'remove-columns':
+        for column in data_columns:
+            del data[column]
+            
+    elif scrub_type == 'one-hot-encoding':
+        # drop_first : remove expendable columns (multi collinearity)
+        data = pd.get_dummies(data, columns=data_columns, drop_first=True)
+        
+    elif scrub_type == 'drop-missing':
+        data.dropna(axis=0, how='any', subset=data_columns, inplace=True)
+    
+    elif scrub_type == 'fill-missing':
+        for column in data_columns:
+            if fill_operation == 'mean':
+                data[column].fillna(data[column].mean(), inplace=True)
+            elif fill_operation == 'mode':
+                data[column].fillna(data[column].mode(), inplace=True)
+            elif fill_operation == 'number' or fill_operation == 'string':
+                inp = input('Enter number or string to be filled :  ')
+                data[column].fillna(inp)
+
+    return data
