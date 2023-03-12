@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 
 # list all file names to process
-def get_file_names_current_dir(dir_name = ''):
+def get_file_names_in_dir(dir_name = ''):
     for dirname, _, filenames in os.walk(os.getcwd() + dir_name):
         for filename in filenames:
             print(os.path.join(dirname, filename))
