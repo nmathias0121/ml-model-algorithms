@@ -5,6 +5,11 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 #%matplotlib inline
 
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from sklearn.datasets import make_blobs
+from sklearn.cluster import KMeans
+
 
 # list all file names to process
 def get_file_names_in_dir(dir_name = ''):
@@ -112,3 +117,86 @@ def dataset_scrubbing(data, scrub_type, data_columns, fill_operation='mean'):
                 data[column].fillna(inp)
 
     return data
+
+
+
+# Scale Data :PCA and k-means clustering
+def pre_model_algorithm(df, algorithm, target_column):
+    '''
+    scales data using Principle Component Analysis or k-means clustering
+
+    Input ->
+    df : pandas dataframe to be scaled
+    algorithm : pca or k-means-clustering
+    target_column : name of column to be predicted
+
+    Output ->
+    (scaled pca) for pca algo. / (model_predict, centroids) for k-means-clustering algo. : scaled data
+    '''
+    # dimension reduction technique principle component analysis
+    if algorithm == 'pca':
+        scaler = StandardScaler()
+        scaler.fit(df)
+        scaled_data = scaler.transform(df)
+        
+        pca = PCA(n_components=2)
+        pca.fit(scaled_data)
+        scaled_pca = pca.transform(scaled_data)
+        
+        # print shape of scaled dataframe
+        print('\n Scaled Dataset Shape : ', scaled_data.shape)
+        # print shape of scaled PCA dataframe
+        print('\n Scaled PCA Dataset Shape : ', scaled_pca.shape)
+        
+        # visualize output
+        # state size of the plot
+        plt.figure(figsize=(10,8))
+        # configure the scatterplot's x and y axes as principle components 1 and 2
+        # and color-coded by the variable
+        plt.scatter(scaled_pca[:, 0], scaled_pca[:, 1], c=df[target_column])
+        
+        # state the scatterplot labels
+        plt.xlabel('First Principle Component')
+        plt.ylabel('Second Principle Component')
+        
+        return scaled_pca
+        
+    # Data Reduction Technique : k-means clustering
+    elif algorithm == 'k-means-clustering':
+        x,y = make_blobs(n_samples=300, n_features=2, centers=4, cluster_std=4, random_state=10)
+        
+        plt.figure(figsize=(7,5))
+        plt.scatter(x[:, 0], x[:, 1])
+        
+        model = KMeans(n_clusters=4)
+        model.fit(x)
+        model_predict = model.predict(x)
+        centroids = model.cluster_centers_ 
+        print('\n Center Coordinates : \n', model.cluster_centers_)
+        print('\n')
+        
+        # visualize output
+        plt.figure(figsize=(7,5))
+        plt.scatter(x[:, 0], x[:, 1], c=model_predict, s=50, cmap='rainbow')
+        plt.scatter(centroids[:, 0], centroids[:, 1], c='black', s=200, alpha=1);
+        
+        # scree plot
+        # Using a for loop, iterate the values of k with a range of 1-10
+        # and find the values of distortion for each k value
+        distortions = []
+        K = range(1,10)
+        
+        for k in K:
+            model = KMeans(n_clusters=k)
+            model.fit(x,y)
+            distortions.append(model.inertia_)
+        
+        # Generate plot with k on the x-axis and distortions on the y-axis 
+        # using matplotlib
+        plt.figure(figsize=(16,8))
+        plt.plot(K, distortions)
+        plt.xlabel('k')
+        plt.ylabel('Distortion')
+        plt.show()
+        
+        return model_predict, centroids

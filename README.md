@@ -13,3 +13,4 @@ import datasets, perform exploratory data analysis, scaling &amp; different mode
 &emsp;&emsp;dataset_import(file_name, dataset_type) : import dataset & print description  such as data size, rows, columns,&emsp; unique and null values  <br />
 &emsp;&emsp;dataset_EDA(data, pairplot_columns) : pairplot, heatmap  <br />
 &emsp;&emsp;dataset_scrubbing(data, scrub_type, data_columns, fill_operation) : clean data by removing or filling missing values, deal with categorical variables using one hot encoding, remove entire columns  <br />
+&emsp;&emsp;pre_model_algorithm(df, algorithm, target_column) : scale data using principle component analysis or k means clustering <br />
