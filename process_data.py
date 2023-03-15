@@ -10,6 +10,8 @@ from sklearn.decomposition import PCA
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
 
+from sklearn.model_selection import train_test_split
+
 
 # list all file names to process
 def get_file_names_in_dir(dir_name = ''):
@@ -200,3 +202,27 @@ def pre_model_algorithm(df, algorithm, target_column):
         plt.show()
         
         return model_predict, centroids
+
+
+# Split Validation
+def split_validation(dataset, features, target_column, test_split):
+    '''
+    split train data to train & test with a specific split ratio
+    example : train (80%), test (20%) => test_split = 0.8
+
+    Input ->
+    dataset : pandas dataframe to be split
+    features : list of column names to be extracted from the dataframe
+    target_column : name of column to be predicted
+    test_split : percentage of dataset that should be train data, value in [0, 1]
+
+    Output ->
+    data split into train & test & target column split separately
+    '''
+    X = dataset[features]
+    y = dataset[target_column]
+    del X[target_column]
+    
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_split, random_state=10, shuffle=True)
+    
+    return X_train, X_test, y_train, y_test
