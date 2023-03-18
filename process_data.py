@@ -226,3 +226,27 @@ def split_validation(dataset, features, target_column, test_split):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_split, random_state=10, shuffle=True)
     
     return X_train, X_test, y_train, y_test
+
+# create prediction file
+def create_prediction_file(dataset, columns, target_column, predictions):
+    '''
+    create prediction file in current directory
+
+    Input ->
+    dataset : pandas dataframe to be scaled
+    columns : features
+    target_column : name of column to be predicted
+    predictions : target column row values that have been predicted
+
+    Output ->
+    file is created in current directory
+    '''
+    dictionary = {}
+
+    for col in columns:
+        dictionary[col] = dataset[col]
+    dictionary[target_column] = predictions
+
+    df = pd.DataFrame(dictionary)
+
+    df.to_csv(target_column + '.csv', index=False)
