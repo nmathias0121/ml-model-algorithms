@@ -5,6 +5,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 from sklearn import metrics
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
 
 # MODEL : Linear Regression (works for continuous variables)
 def linear_regression(X_train, X_test, y_train, y_test):
@@ -58,6 +59,7 @@ def logistic_regression(X_train, X_test, y_train, y_test):
     - used for finding out the relationship between variables and outcome variable/target column
     - models data using the sigmoid function
     - supervised classification algorithm
+    - requires large training sets
 
     Input ->
     X_train, X_test, y_train, y_test : train test split data
@@ -84,6 +86,44 @@ def logistic_regression(X_train, X_test, y_train, y_test):
         print('\nConfusion Matrix : \n', confusion_matrix(y_test, model_predict))
         print('\nClassification Report : \n', classification_report(y_test, model_predict))
     
+    print('   -----  END  -----   ')
+    
+    return model_predict
+
+
+# MODEL : Decision Tree Classifier
+def decision_tree_classifier(X_train, X_test, y_train, y_test):
+    '''
+    decision tree classifier model : 
+    - performs classification & regression tasks
+    - handles decision making automatically
+    - prone to overfitting
+    - can be trained on small training sets
+    - supervised learning algorithm
+
+    Input ->
+    X_train, X_test, y_train, y_test : train test split data
+
+    Output ->
+    if no y_test , creates prediction file in current directory
+    else
+     print confusion matrix : table used to define performance of classification algorithm
+           classification report : shows main classification metrics
+    model_predict : predictions for the target column
+    '''
+    print('Running Decision Tree Classifier....')
+    
+    model = DecisionTreeClassifier()
+    model.fit(X_train, y_train)
+    
+    model_predict = model.predict(X_test)
+    
+    if y_test == None:
+        process_data.create_prediction_file(X_test, ['PassengerId'], 'Survived', model_predict)
+    else :
+        print('\nConfusion Matrix : \n', confusion_matrix(y_test, model_predict))
+        print('\nClassification Report : \n', classification_report(y_test, model_predict))
+        
     print('   -----  END  -----   ')
     
     return model_predict

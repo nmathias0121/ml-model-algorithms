@@ -18,3 +18,4 @@ install module in system :  <br />
 &emsp;run_model.py contains the following models : <br />
 &emsp;&emsp;linear_regression(X_train, X_test, y_train, y_test) : continuous predictions <br />
 &emsp;&emsp;logistic_regression(X_train, X_test, y_train, y_test) : discrete predictions <br />
+&emsp;&emsp;decision_tree_classifier(X_train, X_test, y_train, y_test) : both continuous & discrete predictions <br />
