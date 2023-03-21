@@ -3,9 +3,11 @@ import pandas as pd
 
 from sklearn.metrics import confusion_matrix, classification_report
 from sklearn import metrics
+
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 
 # MODEL : Linear Regression (works for continuous variables)
 def linear_regression(X_train, X_test, y_train, y_test):
@@ -114,6 +116,44 @@ def decision_tree_classifier(X_train, X_test, y_train, y_test):
     print('Running Decision Tree Classifier....')
     
     model = DecisionTreeClassifier()
+    model.fit(X_train, y_train)
+    
+    model_predict = model.predict(X_test)
+    
+    if y_test == None:
+        process_data.create_prediction_file(X_test, ['PassengerId'], 'Survived', model_predict)
+    else :
+        print('\nConfusion Matrix : \n', confusion_matrix(y_test, model_predict))
+        print('\nClassification Report : \n', classification_report(y_test, model_predict))
+        
+    print('   -----  END  -----   ')
+    
+    return model_predict
+
+
+# MODEL : Random Forest Classifier
+def random_forest_classifier(X_train, X_test, y_train, y_test, num_estimators):
+    '''
+    random forest classifier model : 
+    - ensemble learning method that fits a number of decision tree classifiers
+    - performs classification & regression tasks
+    - handles decision making automatically
+    - supervised learning algorithm
+
+    Input ->
+    X_train, X_test, y_train, y_test : train test split data
+    num_estimators : number of trees in forest
+
+    Output ->
+    if no y_test , creates prediction file in current directory
+    else
+     print confusion matrix : table used to define performance of classification algorithm
+           classification report : shows main classification metrics
+    model_predict : predictions for the target column
+    '''
+    print('Running Random Forest Classifier....')
+    
+    model = RandomForestClassifier(n_estimators=num_estimators)
     model.fit(X_train, y_train)
     
     model_predict = model.predict(X_test)
