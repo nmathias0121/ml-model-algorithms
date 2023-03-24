@@ -20,3 +20,4 @@ install module in system :  <br />
 &emsp;&emsp;logistic_regression(X_train, X_test, y_train, y_test) : discrete predictions <br />
 &emsp;&emsp;decision_tree_classifier(X_train, X_test, y_train, y_test) : both continuous & discrete predictions <br />
 &emsp;&emsp;random_forest_classifier(X_train, X_test, y_train, y_test, num_estimators) : both continuous & discrete predictions <br />
+&emsp;&emsp;gradient_boosting(X_train, X_test, y_train, y_test, gb_type) : regressor for continuous & classifier for discrete <br />
