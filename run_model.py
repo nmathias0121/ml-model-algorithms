@@ -10,9 +10,10 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn import ensemble
+from sklearn.neighbors import KNeighborsClassifier
 
 # MODEL : Linear Regression (works for continuous variables)
-def linear_regression(X_train, X_test, y_train, y_test):
+def linear_regression(X_train, X_test, y_train, y_test, show_columns, target_column):
     '''
     linear regression model : 
     - performs regression task 
@@ -21,6 +22,8 @@ def linear_regression(X_train, X_test, y_train, y_test):
 
     Input ->
     X_train, X_test, y_train, y_test : train test split data
+    show_columns : names of columns to print in prediction file
+    target_column : column name to predict
 
     Output ->
     if no y_test , creates prediction file in current directory  & returns prediction list
@@ -43,7 +46,7 @@ def linear_regression(X_train, X_test, y_train, y_test):
     mae = 0
     # if predictions dont exist
     if y_test == None:
-        process_data.create_prediction_file(X_test, ['PassengerId'], 'Survived', prediction)
+        process_data.create_prediction_file(X_test, show_columns, target_column, prediction)
     # if validating
     else :
         mae = metrics.mean_absolute_error(y_test, prediction)
@@ -56,7 +59,7 @@ def linear_regression(X_train, X_test, y_train, y_test):
     
 
 # MODEL : Logistic Regression  (works for discrete variables)
-def logistic_regression(X_train, X_test, y_train, y_test):
+def logistic_regression(X_train, X_test, y_train, y_test, show_columns, target_column):
     '''
     logistic regression model : 
     - performs regression task 
@@ -67,6 +70,8 @@ def logistic_regression(X_train, X_test, y_train, y_test):
 
     Input ->
     X_train, X_test, y_train, y_test : train test split data
+    show_columns : names of columns to print in prediction file
+    target_column : column name to predict
 
     Output ->
     if no y_test , creates prediction file in current directory
@@ -84,7 +89,7 @@ def logistic_regression(X_train, X_test, y_train, y_test):
     
     # if predictions dont exist
     if y_test == None:
-        process_data.create_prediction_file(X_test, ['PassengerId'], 'Survived', model_predict)
+        process_data.create_prediction_file(X_test, show_columns, target_column, model_predict)
     # if validating
     else :
         print('\nConfusion Matrix : \n', confusion_matrix(y_test, model_predict))
@@ -96,7 +101,7 @@ def logistic_regression(X_train, X_test, y_train, y_test):
 
 
 # MODEL : Decision Tree Classifier
-def decision_tree_classifier(X_train, X_test, y_train, y_test):
+def decision_tree_classifier(X_train, X_test, y_train, y_test, show_columns, target_column):
     '''
     decision tree classifier model : 
     - performs classification & regression tasks
@@ -107,6 +112,8 @@ def decision_tree_classifier(X_train, X_test, y_train, y_test):
 
     Input ->
     X_train, X_test, y_train, y_test : train test split data
+    show_columns : names of columns to print in prediction file
+    target_column : column name to predict
 
     Output ->
     if no y_test , creates prediction file in current directory
@@ -123,7 +130,7 @@ def decision_tree_classifier(X_train, X_test, y_train, y_test):
     model_predict = model.predict(X_test)
     
     if y_test == None:
-        process_data.create_prediction_file(X_test, ['PassengerId'], 'Survived', model_predict)
+        process_data.create_prediction_file(X_test, show_columns, target_column, model_predict)
     else :
         print('\nConfusion Matrix : \n', confusion_matrix(y_test, model_predict))
         print('\nClassification Report : \n', classification_report(y_test, model_predict))
@@ -134,7 +141,7 @@ def decision_tree_classifier(X_train, X_test, y_train, y_test):
 
 
 # MODEL : Random Forest Classifier
-def random_forest_classifier(X_train, X_test, y_train, y_test, num_estimators):
+def random_forest_classifier(X_train, X_test, y_train, y_test, show_columns, target_column, num_estimators):
     '''
     random forest classifier model : 
     - ensemble learning method that fits a number of decision tree classifiers
@@ -144,6 +151,8 @@ def random_forest_classifier(X_train, X_test, y_train, y_test, num_estimators):
 
     Input ->
     X_train, X_test, y_train, y_test : train test split data
+    show_columns : names of columns to print in prediction file
+    target_column : column name to predict
     num_estimators : number of trees in forest
 
     Output ->
@@ -161,7 +170,7 @@ def random_forest_classifier(X_train, X_test, y_train, y_test, num_estimators):
     model_predict = model.predict(X_test)
     
     if y_test == None:
-        process_data.create_prediction_file(X_test, ['PassengerId'], 'Survived', model_predict)
+        process_data.create_prediction_file(X_test, show_columns, target_column, model_predict)
     else :
         print('\nConfusion Matrix : \n', confusion_matrix(y_test, model_predict))
         print('\nClassification Report : \n', classification_report(y_test, model_predict))
@@ -172,7 +181,7 @@ def random_forest_classifier(X_train, X_test, y_train, y_test, num_estimators):
 
 
 # MODEL : Gradient Boosting Classifier/Regressor
-def gradient_boosting(X_train, X_test, y_train, y_test, gb_type):
+def gradient_boosting(X_train, X_test, y_train, y_test, show_columns, target_column, gb_type):
     '''
     gradient boosting classifier/regressor model : 
     - ensemble of weak prediction models such as decision trees
@@ -182,6 +191,8 @@ def gradient_boosting(X_train, X_test, y_train, y_test, gb_type):
 
     Input ->
     X_train, X_test, y_train, y_test : train test split data
+    show_columns : names of columns to print in prediction file
+    target_column : column name to predict
     gb_type : 'classifier' or 'regressor'
 
     Output ->
@@ -203,7 +214,7 @@ def gradient_boosting(X_train, X_test, y_train, y_test, gb_type):
         model_predict = model.predict(X_test)
         
         if y_test == None:
-            process_data.create_prediction_file(X_test, ['PassengerId'], 'Survived', model_predict)
+            process_data.create_prediction_file(X_test, show_columns, target_column, model_predict)
         else :
             print('\nConfusion Matrix : \n', confusion_matrix(y_test, model_predict))
             print('\nClassification Report : \n', classification_report(y_test, model_predict))
@@ -222,7 +233,7 @@ def gradient_boosting(X_train, X_test, y_train, y_test, gb_type):
         model_predict = model.predict(X_test)
 
         if y_test == None:
-            process_data.create_prediction_file(X_test, ['PassengerId'], 'Survived', model_predict)
+            process_data.create_prediction_file(X_test, show_columns, target_column, model_predict)
         else :
             mae_train = mean_absolute_error(y_test, model.predict(X_train))
             print("Training Set Mean Absolute Error : %.2f" % mae_train)
@@ -233,3 +244,55 @@ def gradient_boosting(X_train, X_test, y_train, y_test, gb_type):
         print('   -----  END  -----   ')
     
         return model_predict
+    
+
+# MODEL : k-Nearest Neighbors (for relatively small and low dimensional datasets)
+# scale data before this function
+def k_neighbors_classifier(X_train, X_test, y_train, y_test, show_columns, target_column, k, scaled_features):
+    '''
+    k nearest neighbors classifier model : 
+    - uses proximity to make classifications or predictions about grouping individual data point
+    - performs classification, regression & is non parametric
+    - supervised learning algorithm
+
+    Input ->
+    X_train, X_test, y_train, y_test : train test split data
+    show_columns : names of columns to print in prediction file
+    target_column : column name to predict
+    k : number of neighbors
+    scaled_features : list of columns names to predict for scaled dataset
+
+    Output ->
+    if no y_test , creates prediction file in current directory
+    else
+        print confusion matrix : table used to define performance of classification algorithm
+        & classification report : shows main classification metrics
+    model_predict : predictions for the dataset
+    scaled_model_predict : predictions for the scaled dataset
+    '''
+    print('Running k-Nearest Neighbor Classifier....')
+    
+    model = KNeighborsClassifier(n_neighbors=k)
+    model.fit(X_train, y_train)
+    
+    model_predict = model.predict(X_test)
+    
+    if y_test == None:
+        process_data.create_prediction_file(X_test, show_columns, target_column, model_predict)
+    else :
+        print('\nConfusion Matrix : \n', confusion_matrix(y_test, model_predict))
+        print('\nClassification Report : \n', classification_report(y_test, model_predict))
+        
+    scaled_model_predict = []
+    if scaled_features:
+        scaled_model_predict = model.predict(scaled_features)
+
+        if y_test == None:
+            process_data.create_prediction_file(X_test, show_columns, target_column, scaled_model_predict)
+        else :
+            print('\nConfusion Matrix : \n', confusion_matrix(y_test, scaled_model_predict))
+            print('\nClassification Report : \n', classification_report(y_test, scaled_model_predict))
+
+    print('   -----  END  -----   ')
+    
+    return model_predict, scaled_model_predict

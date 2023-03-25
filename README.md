@@ -21,3 +21,10 @@ install module in system :  <br />
 &emsp;&emsp;decision_tree_classifier(X_train, X_test, y_train, y_test) : both continuous & discrete predictions <br />
 &emsp;&emsp;random_forest_classifier(X_train, X_test, y_train, y_test, num_estimators) : both continuous & discrete predictions <br />
 &emsp;&emsp;gradient_boosting(X_train, X_test, y_train, y_test, gb_type) : regressor for continuous & classifier for discrete <br />
+&emsp;&emsp;k_neighbors_classifier(X_train, X_test, y_train, y_test, k, scaled_features) : continuous, discrete, ordinal, categorical data predictions <br />
+
+
+**References**
+- https://www.geeksforgeeks.org/
+- https://scikit-learn.org/stable/index.html
+- https://www.ibm.com/topics/knn#:~:text=The%20k%2Dnearest%20neighbors%20algorithm%2C%20also%20known%20as%20KNN%20or,of%20an%20individual%20data%20point.
