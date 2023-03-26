@@ -22,6 +22,7 @@ install module in system :  <br />
 &emsp;&emsp;random_forest_classifier(X_train, X_test, y_train, y_test, num_estimators) : both continuous & discrete predictions <br />
 &emsp;&emsp;gradient_boosting(X_train, X_test, y_train, y_test, gb_type) : regressor for continuous & classifier for discrete <br />
 &emsp;&emsp;k_neighbors_classifier(X_train, X_test, y_train, y_test, k, scaled_features) : continuous, discrete, ordinal, categorical data predictions <br />
+&emsp;&emsp;s   <br />
 
 
 **References**
