@@ -11,6 +11,8 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn import ensemble
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.model_selection import GridSearchCV
 
 # MODEL : Linear Regression (works for continuous variables)
 def linear_regression(X_train, X_test, y_train, y_test, show_columns, target_column):
@@ -296,3 +298,59 @@ def k_neighbors_classifier(X_train, X_test, y_train, y_test, show_columns, targe
     print('   -----  END  -----   ')
     
     return model_predict, scaled_model_predict
+
+
+# MODEL : Support Vector Machines (allows categorical variables)
+def support_vector_classifier(X_train, X_test, y_train, y_test, show_columns, target_column):
+    '''
+    support vector classifier model : 
+    - find a hyperplane in a multi dimensional space that distinctly classifies the data points
+    - performs classification, regression & outlier detection
+    - supervised learning algorithm
+
+    Input ->
+    X_train, X_test, y_train, y_test : train test split data
+    show_columns : names of columns to print in prediction file
+    target_column : column name to predict
+
+    Output ->
+    if no y_test , creates prediction file in current directory
+    else
+        print confusion matrix : table used to define performance of classification algorithm
+        & classification report : shows main classification metrics
+    model_predictions : predictions for the dataset
+    grid_predictions : predictions for the dataset using grid search
+    '''
+    print('Running Support Vector Classifier....')
+    
+    model = SVC()
+    model.fit(X_train, y_train)
+    
+    model_predict = model.predict(X_test)
+    
+    if y_test == None:
+        process_data.create_prediction_file(X_test, show_columns, target_column, model_predict)
+        #pass
+    else :
+        print('\nConfusion Matrix : \n', confusion_matrix(y_test, model_predict))
+        print('\nClassification Report : \n', classification_report(y_test, model_predict))
+    
+    # Grid Search
+    hyperparameters = {'C':[10,25,50], 'gamma':[0.001,0.0001,0.00001]}
+    grid = GridSearchCV(SVC(), hyperparameters)
+    grid.fit(X_train, y_train)
+    
+    print('\nOptimal HyperParameter : ', grid.best_params_)
+    
+    grid_predictions = grid.predict(X_test)
+    
+    if y_test == None:
+        process_data.create_prediction_file(X_test, show_columns, target_column, grid_predictions)
+        #pass
+    else :
+        print('\nConfusion Matrix : \n', confusion_matrix(y_test, grid_predictions))
+        print('\nClassification Report : \n', classification_report(y_test, grid_predictions))
+    
+    print('   -----  END  -----   ')
+    
+    return model_predict, grid_predictions

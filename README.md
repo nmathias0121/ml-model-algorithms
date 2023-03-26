@@ -16,13 +16,13 @@ install module in system :  <br />
 
 **Run Model** <br />
 &emsp;run_model.py contains the following models : <br />
-&emsp;&emsp;linear_regression(X_train, X_test, y_train, y_test) : continuous predictions <br />
-&emsp;&emsp;logistic_regression(X_train, X_test, y_train, y_test) : discrete predictions <br />
-&emsp;&emsp;decision_tree_classifier(X_train, X_test, y_train, y_test) : both continuous & discrete predictions <br />
-&emsp;&emsp;random_forest_classifier(X_train, X_test, y_train, y_test, num_estimators) : both continuous & discrete predictions <br />
-&emsp;&emsp;gradient_boosting(X_train, X_test, y_train, y_test, gb_type) : regressor for continuous & classifier for discrete <br />
-&emsp;&emsp;k_neighbors_classifier(X_train, X_test, y_train, y_test, k, scaled_features) : continuous, discrete, ordinal, categorical data predictions <br />
-&emsp;&emsp;s   <br />
+&emsp;&emsp;linear_regression(X_train, X_test, y_train, y_test, show_columns, target_column) : continuous predictions <br />
+&emsp;&emsp;logistic_regression(X_train, X_test, y_train, y_test, show_columns, target_column) : discrete predictions <br />
+&emsp;&emsp;decision_tree_classifier(X_train, X_test, y_train, y_test, show_columns, target_column) : both continuous & discrete predictions <br />
+&emsp;&emsp;random_forest_classifier(X_train, X_test, y_train, y_test, show_columns, target_column, num_estimators) : both continuous & discrete predictions <br />
+&emsp;&emsp;gradient_boosting(X_train, X_test, y_train, y_test, show_columns, target_column, gb_type) : regressor for continuous & classifier for discrete <br />
+&emsp;&emsp;k_neighbors_classifier(X_train, X_test, y_train, y_test, show_columns, target_column, k, scaled_features) : continuous, discrete, ordinal, categorical data predictions <br />
+&emsp;&emsp;support_vector_classifier(X_train, X_test, y_train, y_test, show_columns, target_column) : continuous data predictions   <br />
 
 
 **References**
