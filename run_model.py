@@ -13,11 +13,12 @@ from sklearn import ensemble
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.model_selection import GridSearchCV
+from sklearn.naive_bayes import GaussianNB
 
 # MODEL : Linear Regression (works for continuous variables)
 def linear_regression(X_train, X_test, y_train, y_test, show_columns, target_column):
     '''
-    linear regression model : 
+    Linear Regression Model : 
     - performs regression task 
     - used for finding out the relationship between variables and outcome variable/target column
     - based on supervised learning
@@ -63,7 +64,7 @@ def linear_regression(X_train, X_test, y_train, y_test, show_columns, target_col
 # MODEL : Logistic Regression  (works for discrete variables)
 def logistic_regression(X_train, X_test, y_train, y_test, show_columns, target_column):
     '''
-    logistic regression model : 
+    Logistic Regression Model : 
     - performs regression task 
     - used for finding out the relationship between variables and outcome variable/target column
     - models data using the sigmoid function
@@ -105,7 +106,7 @@ def logistic_regression(X_train, X_test, y_train, y_test, show_columns, target_c
 # MODEL : Decision Tree Classifier
 def decision_tree_classifier(X_train, X_test, y_train, y_test, show_columns, target_column):
     '''
-    decision tree classifier model : 
+    Decision Tree Classifier Model : 
     - performs classification & regression tasks
     - handles decision making automatically
     - prone to overfitting
@@ -145,7 +146,7 @@ def decision_tree_classifier(X_train, X_test, y_train, y_test, show_columns, tar
 # MODEL : Random Forest Classifier
 def random_forest_classifier(X_train, X_test, y_train, y_test, show_columns, target_column, num_estimators):
     '''
-    random forest classifier model : 
+    Random Forest Classifier Model : 
     - ensemble learning method that fits a number of decision tree classifiers
     - performs classification & regression tasks
     - handles decision making automatically
@@ -185,7 +186,7 @@ def random_forest_classifier(X_train, X_test, y_train, y_test, show_columns, tar
 # MODEL : Gradient Boosting Classifier/Regressor
 def gradient_boosting(X_train, X_test, y_train, y_test, show_columns, target_column, gb_type):
     '''
-    gradient boosting classifier/regressor model : 
+    Gradient Boosting Classifier/Regressor Model : 
     - ensemble of weak prediction models such as decision trees
     - performs classification & regression tasks
     - works for large & complex datasets, has good prediction speed & accuracy
@@ -252,7 +253,7 @@ def gradient_boosting(X_train, X_test, y_train, y_test, show_columns, target_col
 # scale data before this function
 def k_neighbors_classifier(X_train, X_test, y_train, y_test, show_columns, target_column, k, scaled_features):
     '''
-    k nearest neighbors classifier model : 
+    k Nearest Neighbors Classifier Model : 
     - uses proximity to make classifications or predictions about grouping individual data point
     - performs classification, regression & is non parametric
     - supervised learning algorithm
@@ -303,7 +304,7 @@ def k_neighbors_classifier(X_train, X_test, y_train, y_test, show_columns, targe
 # MODEL : Support Vector Machines (allows categorical variables)
 def support_vector_classifier(X_train, X_test, y_train, y_test, show_columns, target_column):
     '''
-    support vector classifier model : 
+    Support Vector Classifier Model : 
     - find a hyperplane in a multi dimensional space that distinctly classifies the data points
     - performs classification, regression & outlier detection
     - supervised learning algorithm
@@ -354,3 +355,43 @@ def support_vector_classifier(X_train, X_test, y_train, y_test, show_columns, ta
     print('   -----  END  -----   ')
     
     return model_predict, grid_predictions
+
+
+
+# MODEL : Gaussian Naive Bayes Classifier
+def gaussian_naive_bayes_classifier(X_train, X_test, y_train, y_test, show_columns, target_column):
+    '''
+    Gaussian Naive Bayes Classifier Model : 
+    - based on Bayes theorem : probability of target class given selected features is inversely proportional to the probability of selected features & directly proportional to probabilty of target class or that of the selcted features given the target class
+    - time efficient as naive bayes classifiers are faster than others
+    - performs classification tasks
+    - supervised learning algorithm
+
+    Input ->
+    X_train, X_test, y_train, y_test : train test split data
+    show_columns : names of columns to print in prediction file
+    target_column : column name to predict
+
+    Output ->
+    if no y_test , creates prediction file in current directory
+    else
+     print confusion matrix : table used to define performance of classification algorithm
+           classification report : shows main classification metrics
+    model_predict : predictions for the target column
+    '''
+    print('Running Gaussian Naive Bayes Classifier....')
+    
+    model = GaussianNB()
+    model.fit(X_train, y_train)
+    
+    model_predict = model.predict(X_test)
+    
+    if y_test == None:
+        process_data.create_prediction_file(X_test, show_columns, target_column, model_predict)
+    else :
+        print('\nConfusion Matrix : \n', confusion_matrix(y_test, model_predict))
+        print('\nClassification Report : \n', classification_report(y_test, model_predict))
+        
+    print('   -----  END  -----   ')
+    
+    return model_predict
